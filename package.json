@@ -1,0 +1,64 @@
+{
+  "name": "password-strength-component",
+  "version": "0.0.0",
+  "description": "generic password strength component",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "coverage": "nyc npm test",
+    "pretest": "xo",
+    "test": "mocha --recursive test"
+  },
+  "repository": "github:noblesamurai/password-strength-component",
+  "author": "Andrew Harris <andrew@noblesamurai.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
+    "babel-polyfill": "^6.26.0",
+    "chai": "^4.2.0",
+    "css-loader": "^4.2.1",
+    "eslint-config-semistandard": "*",
+    "eslint-config-standard": "*",
+    "eslint-plugin-node": "*",
+    "eslint-plugin-standard": "*",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "less-loader": "^6.2.0",
+    "load-script": "^1.0.0",
+    "load-script-once": "^2.0.1",
+    "lodash.debounce": "^4.0.8",
+    "mini-css-extract-plugin": "^0.10.0",
+    "mocha": "^8.1.1",
+    "nyc": "^15.0.0",
+    "p-debounce": "^2.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "xo": "*"
+  },
+  "nyc": {
+    "include": [
+      "src"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "cache": true,
+    "all": true
+  },
+  "xo": {
+    "env": [
+      "mocha"
+    ],
+    "extends": "semistandard",
+    "ignores": [
+      "webpack.config.js"
+    ]
+  }
+}
