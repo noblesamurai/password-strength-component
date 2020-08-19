@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Global Tests</title>
+    <link href="/dist/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <section id="main">
+      <input id="password" type="password" placeholder="Enter a password">
+      <div id="strength"></div>
+      <input id="continue" type="button" value="Continue" disabled>
+    </section>
+    <script src="/dist/global.js"></script>
+    <script type="text/javascript">
+      const passwordInput = document.querySelector('#password');
+      const strengthDiv  = document.querySelector('#strength');
+      const continueButton = document.querySelector('#continue');
+      const zxcvbnLib = {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js',
+        integrity: 'sha512-TZlMGFY9xKj38t/5m2FzJ+RM/aD5alMHDe26p0mYUMoCF5G7ibfHUQILq0qQPV3wlsnCwL+TPRNK4vIWGLOkUQ=='
+      };
+      const update = mountPasswordStrengthComponent.default(strengthDiv, zxcvbnLib);
+      passwordInput.addEventListener('input', async event => {
+        const strength = await update(event.target.value);
+        continueButton.disabled = strength < 1;
+      });
+    </script>
+  </body>
+</html>
