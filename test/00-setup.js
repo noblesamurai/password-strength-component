@@ -1,13 +1,18 @@
 const chai = require('chai');
 const express = require('express');
+const fs = require('fs').promises;
 const http = require('http');
 const path = require('path');
 const puppeteer = require('puppeteer');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 const webpackMiddleware = require('webpack-dev-middleware');
+const { createCoverageMap } = require('istanbul-lib-coverage');
 const { expect } = require('chai');
 const { promisify } = require('util');
+
+// Create top level coverage map
+const map = createCoverageMap();
 
 const compiler = webpack({
   mode: 'development',
@@ -45,10 +50,20 @@ beforeEach(async function () {
 });
 
 afterEach(async function () {
+  // Get page coverage data and merge into top level coverage map.
+  const coverage = await this.page.evaluate(() => window.__coverage__);
+  if (coverage) map.merge(coverage);
   await this.page.close();
 });
 
 after(async function () {
+  // Write coverage files to location required for nyc.
+  const files = map.files();
+  await Promise.all(files.map(async file => {
+    const cov = map.fileCoverageFor(file);
+    const { hash, path } = cov.data;
+    await fs.writeFile(`.nyc_output/${hash}.json`, JSON.stringify({ [path]: cov }));
+  }));
   await this.browser.close();
   this.server.close();
   middleware.close();
