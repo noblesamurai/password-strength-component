@@ -1,33 +1,69 @@
-# @noblesam/password-strength-component
+# Password Strength Component
 
 > generic password strength component
-
-## Purpose
-- What problem does this module solve? At least a few sentences.
-PLEASE_FILL_IN_HERE
-
-## Usage
-
-```js
-// Several examples of usage.
-// Usually copying and pasting code from the tests and making the code standalone suffices.
-// PLEASE_FILL_IN_HERE
-```
-
-## API
-
-PLEASE_FILL_IN_HERE
-
-Note: To regenerate this section from the jsdoc run `npm run docs` and paste
-the output above.
 
 ## Installation
 
 This module is installed via npm:
 
 ``` bash
-$ npm install @noblesam/password-strength-component
+$ npm install password-strength-component
 ```
+
+or by downloading and using the files in the `dist` folder.
+
+## Usage
+
+### Creating and updating the component.
+
+*Note: This is a work in progress. Ultimatelly there should be multiple ways
+to use this component. By including a js file and getting a global function to
+use or importing into your own project (vanilla, angular, react, ...).*
+
+For now the only properly tested version is the vanilla global js file that
+you need to include before your code.
+
+```html
+<script src="global.js"></script>
+```
+
+This then enables you to do something like...
+
+```js
+const opts = {
+  // Where to load the main zxcvbn.js lib from (either a reliable cdn or
+  // another location of your own choosing.
+  src: 'https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js',
+
+  // The integrity checksum to make sure the zxcvbn.js lib is what you expect
+  // it to be and hasn't been tampered with by any nefarious individuals.
+  integrity: 'sha512-TZlMGFY9xKj...HUQILq0qQPV3wlsnCwL+TPRNK4vIWGLOkUQ=='
+};
+
+const container = document.querySelector('#demo');
+
+// Create the password strength component in the provided container element.
+// This also returns an update function that can be used to update the display
+// based on the password you give it.
+const update = mountPasswordStrengthComponent(container, opts);
+
+const input = document.querySelector('#password');
+input.addEventListener('input', async event => {
+  const strength = await update(event.target.value);
+
+  // The "update" function is async and will update the component display as
+  // well as returning the strength of the password so that you can do any
+  // validation you require based on password strength...
+  // ie. enabling or disabling the submit button if the password isn't good enough. 
+  const button = document.querySelector('#submit');
+  button.disabled = strength < 1;
+});
+```
+
+### Styles
+
+Along with the js file there is also a `dist/style.css` that provides basic styling that can be
+changed/extended with your own CSS rules being applied afterwards.
 
 ## License
 
