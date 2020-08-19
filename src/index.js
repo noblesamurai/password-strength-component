@@ -12,6 +12,12 @@ const SCORE_LABELS = [
   'Very Strong &#x1F60E;'
 ];
 const INITIAL_HINT = 'Loading password checking rules. Please wait...';
+const INITIAL_COMPONENT_HTML = `
+  <section class="ns-password-strength-component">
+    <header>Password Strength <span class="label">${INITIAL_LABEL}</span></header>
+    <meter min="0" max="4" value="0"></meter>
+    <aside class="hints"><p>${INITIAL_HINT}</p></aside>
+  </section>`;
 
 /**
  * Render the password strength component and return an update function.
@@ -33,23 +39,15 @@ const INITIAL_HINT = 'Loading password checking rules. Please wait...';
  * @returns {function}
  */
 function mountPasswordStrengthComponent (element, options = {}) {
-  element.innerHTML = `
-    <section class="ns-password-strength-component">
-      <header>Password Strength <span class="label">${INITIAL_LABEL}</span></header>
-      <meter min="0" max="4" value="0"></meter>
-      <aside class="hints"><p>${INITIAL_HINT}</p></aside>
-    </section>
-  `;
-  const label = element.querySelector('.label');
-  const meter = element.querySelector('meter');
-  const hints = element.querySelector('.hints');
+  element.innerHTML = INITIAL_COMPONENT_HTML;
 
   // Start loading the zxcvbn lib...
   const zxcvbnLoading = loadScriptOnce(options);
 
-  let _version = 0;
+  let version = 0;
+  let score = -1;
   async function update (password) {
-    const version = ++_version;
+    const current = ++version;
     try {
       await zxcvbnLoading;
     } catch (error) {
@@ -57,21 +55,50 @@ function mountPasswordStrengthComponent (element, options = {}) {
       return;
     }
 
-    if (version < _version) return; // Out of date
+    // If version is still current, update the score and the display to the
+    // new value... otherwise just return the existing value.
+    if (version === current) {
+      score = updateComponent(password, element);
+    }
 
-    const { score, suggestions, warning } = getPasswordFeedback(password);
-    label.innerHTML = SCORE_LABELS[score];
-    label.className = `label score-${score}`;
-    meter.value = score;
-    hints.innerHTML = [
-      warning && `<p class="${password && score < 1 ? 'warning' : 'notice'}">${warning}</p>`,
-      `<p>${suggestions.join('. ')}</p>`
-    ].join('');
     return score;
   }
 
   update(''); // Set to empty password initially (once loaded).
   return debounce(update, options.delay || 200);
+}
+
+/**
+ * Update the component display based on the passed in password
+ *
+ * @param {string} password
+ * @param {HTMLElement} element
+ * @return {number}
+ */
+function updateComponent (password, element) {
+  const { label, meter, hints } = getComponentParts(element);
+  const { score, suggestions, warning } = getPasswordFeedback(password);
+  label.innerHTML = SCORE_LABELS[score];
+  label.className = `label score-${score}`;
+  meter.value = score;
+  hints.innerHTML = [
+    warning && `<p class="${password && score < 1 ? 'warning' : 'notice'}">${warning}</p>`,
+    `<p>${suggestions.join('. ')}</p>`
+  ].join('');
+  return score;
+}
+
+/**
+ * Get relevant part elements from the component element
+ *
+ * @param {HTMLElement} element
+ * @return {object}
+ */
+function getComponentParts (element) {
+  const label = element.querySelector('.label');
+  const meter = element.querySelector('meter');
+  const hints = element.querySelector('.hints');
+  return { label, meter, hints };
 }
 
 export default mountPasswordStrengthComponent;

@@ -1,6 +1,8 @@
-import loadScript from 'load-script';
+import _loadScript from 'load-script';
+import { promisify } from 'util';
 
 const scriptCache = {};
+const loadScript = promisify(_loadScript);
 
 /**
  * Asynchronously load a script (once only).
@@ -11,10 +13,8 @@ const scriptCache = {};
 async function loadScriptOnce (options) {
   const { src, integrity } = options;
   if (!scriptCache[src]) {
-    scriptCache[src] = new Promise((resolve, reject) => {
-      const callback = err => err ? reject(err) : resolve();
-      loadScript(src, { attrs: { ...(integrity && { integrity }), crossorigin: 'anonymous' } }, callback);
-    });
+    const attrs = { ...(integrity && { integrity }), crossorigin: 'anonymouse' };
+    scriptCache[src] = await loadScript(src, { attrs });
   }
 
   return scriptCache[src];
