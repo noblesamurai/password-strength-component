@@ -1,5 +1,5 @@
 /**
- * Use the globally available zxcvbn lib to calculate a passwords strength.
+ * Use the globally available zxcvbn lib to calculate a password's strength.
  *
  * Custom rules:
  * - If the password is less than 8 characters the strength is always 0
