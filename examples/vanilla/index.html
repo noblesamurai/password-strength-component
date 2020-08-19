@@ -20,7 +20,7 @@
         src: 'https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js',
         integrity: ''
       };
-      const update = mountPasswordStrengthComponent.default(strengthDiv, zxcvbnLib);
+      const update = mountPasswordStrengthComponent(strengthDiv, zxcvbnLib);
       passwordInput.addEventListener('input', async event => {
         const strength = await update(event.target.value);
         continueButton.disabled = strength < 1;
