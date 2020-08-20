@@ -31,8 +31,14 @@ const build = _build();
 const app = express();
 app.use('/dist', async (request, response) => {
   const files = await build;
-  if (files.has(request.url)) response.status(200).send(files.get(request.url));
-  else response.sendStatus(404);
+  if (files.has(request.url)) {
+    response.status(200).type('text/javascript').send(files.get(request.url));
+  // The CSS file is still built to the filesystem.
+  } else if (/\.css$/.test(request.url)) {
+    response.sendFile(path.resolve(__dirname, `../dist${request.url}`));
+  } else {
+    response.sendStatus(404);
+  }
 });
 app.use(express.static(path.resolve(__dirname, 'fixtures')));
 
@@ -51,6 +57,7 @@ before(async function () {
 
 beforeEach(async function () {
   this.page = await this.browser.newPage();
+  await this.page.setViewport({ width: 300, height: 300 });
   this.page.on('pageerror', console.error);
 });
 
