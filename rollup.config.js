@@ -10,12 +10,12 @@ const config = {
     {
       file: 'dist/component.js',
       name: 'mountPasswordStrengthComponent',
-      format: 'iife'
+      format: 'umd'
     },
     {
       file: 'dist/component.min.js',
       name: 'mountPasswordStrengthComponent',
-      format: 'iife',
+      format: 'umd',
       plugins: [terser()]
     },
     {
