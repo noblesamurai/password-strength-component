@@ -2,13 +2,13 @@
   "name": "password-strength-component",
   "version": "0.0.0",
   "description": "generic password strength component",
-  "main": "src/index.js",
+  "main": "dist/component.js",
+  "module": "dist/component.esm.js",
   "files": [
     "src"
   ],
   "scripts": {
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development",
+    "build": "rollup -c rollup.config.js",
     "coverage": "cross-env NODE_ENV=coverage nyc npm test",
     "pretest": "xo",
     "test": "mocha --recursive test"
@@ -19,35 +19,32 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.11.1",
+    "@babel/plugin-transform-runtime": "^7.11.0",
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
-    "babel-loader": "^8.1.0",
+    "@rollup/plugin-babel": "^5.2.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "css-loader": "^4.2.1",
     "dirty-chai": "^2.0.1",
     "eslint-config-semistandard": "*",
     "eslint-config-standard": "*",
     "eslint-plugin-node": "*",
     "eslint-plugin-standard": "*",
     "express": "^4.17.1",
-    "extract-text-webpack-plugin": "^3.0.2",
     "istanbul-lib-coverage": "^3.0.0",
-    "less-loader": "^6.2.0",
     "load-script": "^1.0.0",
-    "load-script-once": "^2.0.1",
     "lodash.debounce": "^4.0.8",
-    "mini-css-extract-plugin": "^0.10.0",
     "mocha": "^8.1.1",
     "nyc": "^15.0.0",
     "p-debounce": "^2.1.0",
     "puppeteer": "^5.2.1",
-    "regenerator-runtime": "^0.13.7",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-middleware": "^3.7.2",
+    "rollup": "^2.26.4",
+    "rollup-plugin-less": "^1.1.2",
+    "rollup-plugin-terser": "^7.0.0",
     "xo": "*"
   },
   "nyc": {
@@ -69,14 +66,6 @@
     "env": [
       "mocha"
     ],
-    "extends": "semistandard",
-    "settings": {
-      "import/resolver": {
-        "node": {},
-        "webpack": {
-          "config": "webpack.config.js"
-        }
-      }
-    }
+    "extends": "semistandard"
   }
 }
