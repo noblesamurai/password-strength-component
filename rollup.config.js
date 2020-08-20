@@ -32,10 +32,7 @@ const config = {
       output: 'dist/style.css'
     }),
     babel({
-      babelHelpers: 'runtime',
-      plugins: [
-        '@babel/plugin-transform-runtime'
-      ]
+      babelHelpers: 'bundled'
     })
   ]
 };

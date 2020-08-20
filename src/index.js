@@ -46,22 +46,20 @@ function mountPasswordStrengthComponent (element, options = {}) {
 
   let version = 0;
   let score = -1;
-  async function update (password) {
+
+  function update (password) {
     const current = ++version;
-    try {
-      await zxcvbnLoading;
-    } catch (error) {
+    return zxcvbnLoading.then(() => {
+      // If version is still current, update the score and the display to the
+      // new value... otherwise just return the existing value.
+      if (version === current) {
+        score = updateComponent(password, element);
+      }
+
+      return score;
+    }).catch(error => {
       console.error('failed to load zxcvbn', error);
-      return;
-    }
-
-    // If version is still current, update the score and the display to the
-    // new value... otherwise just return the existing value.
-    if (version === current) {
-      score = updateComponent(password, element);
-    }
-
-    return score;
+    });
   }
 
   update(''); // Set to empty password initially (once loaded).

@@ -10,11 +10,11 @@ const loadScript = promisify(_loadScript);
  * @param {string} options.src script source url to load.
  * @param {string} options.integrity integrity check (sha256, sha384, sha512 hash).
  */
-async function loadScriptOnce (options) {
+function loadScriptOnce (options) {
   const { src, integrity } = options;
   if (!scriptCache[src]) {
     const attrs = { ...(integrity && { integrity }), crossorigin: 'anonymouse' };
-    scriptCache[src] = await loadScript(src, { attrs });
+    scriptCache[src] = loadScript(src, { attrs });
   }
 
   return scriptCache[src];
