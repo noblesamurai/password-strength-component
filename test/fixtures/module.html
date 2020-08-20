@@ -1,9 +1,8 @@
 <!doctype html>
 <html>
   <head>
-    <title>Vanilla Javascript Example</title>
-    <link href="../../dist/style.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <title>Global Tests</title>
+    <link href="/dist/style.css" rel="stylesheet">
   </head>
   <body>
     <section id="main">
@@ -11,8 +10,9 @@
       <div id="strength"></div>
       <input id="continue" type="button" value="Continue" disabled>
     </section>
-    <script src="../../dist/component.min.js"></script>
-    <script type="text/javascript">
+    <script type="module">
+      import mountPasswordStrengthComponent from '/dist/component.esm.js';
+
       const passwordInput = document.querySelector('#password');
       const strengthDiv  = document.querySelector('#strength');
       const continueButton = document.querySelector('#continue');

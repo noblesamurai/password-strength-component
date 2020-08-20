@@ -1,8 +1,5 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.mountPasswordStrengthComponent = factory());
-}(this, (function () { 'use strict';
+var mountPasswordStrengthComponent = (function () {
+	'use strict';
 
 	function createCommonjsModule(fn, basedir, module) {
 		return module = {
@@ -1937,4 +1934,4 @@
 
 	return mountPasswordStrengthComponent;
 
-})));
+}());
