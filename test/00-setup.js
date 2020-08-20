@@ -4,32 +4,37 @@ const fs = require('fs').promises;
 const http = require('http');
 const path = require('path');
 const puppeteer = require('puppeteer');
-const webpack = require('webpack');
-const webpackConfig = require('../webpack.config.js');
-const webpackMiddleware = require('webpack-dev-middleware');
+const rollup = require('rollup');
+const loadRollupConfigFile = require('rollup/dist/loadConfigFile');
 const { createCoverageMap } = require('istanbul-lib-coverage');
 const { expect } = require('chai');
 const { promisify } = require('util');
 
+chai.use(require('dirty-chai'));
+
 // Create top level coverage map
 const map = createCoverageMap();
 
-const compiler = webpack({
-  mode: 'development',
-  ...webpackConfig,
-  stats: {
-    all: true
-  }
-});
-const app = express();
-const middleware = webpackMiddleware(compiler, {
-  logLevel: 'warn',
-  publicPath: '/dist'
-});
-app.use(middleware);
-app.use(express.static(path.resolve(__dirname, 'fixtures')));
+async function _build () {
+  const { options: [options] } = await loadRollupConfigFile(path.resolve(__dirname, '../rollup.config.js'));
+  const bundle = await rollup.rollup(options);
+  const outputs = await Promise.all(options.output.map(output => bundle.generate(output)));
+  const files = new Map();
+  outputs.forEach(({ output }) => {
+    output.forEach(file => files.set(`/${file.fileName}`, file.code));
+  });
+  return files;
+}
 
-chai.use(require('dirty-chai'));
+const build = _build();
+
+const app = express();
+app.use('/dist', async (request, response) => {
+  const files = await build;
+  if (files.has(request.url)) response.status(200).send(files.get(request.url));
+  else response.sendStatus(404);
+});
+app.use(express.static(path.resolve(__dirname, 'fixtures')));
 
 async function createServer () {
   const server = http.createServer(app);
@@ -66,7 +71,6 @@ after(async function () {
   }));
   await this.browser.close();
   this.server.close();
-  middleware.close();
 });
 
 // Make sure puppeteer and localhost server are actually working as expected.

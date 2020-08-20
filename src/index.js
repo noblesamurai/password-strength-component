@@ -1,7 +1,7 @@
 import debounce from 'p-debounce';
 import getPasswordFeedback from './get-password-feedback';
 import loadScriptOnce from './load-script-once';
-import './style.less'; // eslint-disable-line import/no-unassigned-import
+import './style.less'; // eslint-disable-line import/no-unassigned-import, import/extensions
 
 const INITIAL_LABEL = 'Calculating... &#x1F914;';
 const SCORE_LABELS = [
