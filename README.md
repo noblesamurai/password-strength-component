@@ -2,6 +2,8 @@
 
 > generic password strength component
 
+![Example Screenshot](screenshot.png)
+
 ## Installation
 
 This module is installed via npm:
