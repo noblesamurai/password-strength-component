@@ -78,6 +78,9 @@ const opts = {
   // The integrity checksum to make sure the zxcvbn.js lib is what you expect
   // it to be and hasn't been tampered with by any nefarious individuals.
   integrity: 'sha512-...'
+
+  // Checksums can be created using a command like
+  // cat zxcvbn.js | openssl dgst -sha512 -binary | openssl base64 -A
 };
 
 const container = document.querySelector('#demo');
