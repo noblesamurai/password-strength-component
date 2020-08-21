@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const versions = [
   { version: 'esm module', page: 'module.html' },
-  { version: 'global function (iife)', page: 'global.html' }
+  { version: 'global function', page: 'global.html' }
 ];
 
 versions.forEach(({ version, page }) => {
