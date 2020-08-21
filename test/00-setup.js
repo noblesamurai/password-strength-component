@@ -40,6 +40,9 @@ app.use('/dist', async (request, response) => {
     response.sendStatus(404);
   }
 });
+app.get('/vendor/zxcvbn.js', (request, response) => {
+  response.sendFile(require.resolve('zxcvbn/dist/zxcvbn'));
+});
 app.use(express.static(path.resolve(__dirname, 'fixtures')));
 
 async function createServer () {
