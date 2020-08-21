@@ -21,6 +21,11 @@ const config = {
     {
       file: 'dist/component.esm.js',
       format: 'esm'
+    },
+    {
+      file: 'dist/component.esm.min.js',
+      format: 'esm',
+      plugins: [terser()]
     }
   ],
   plugins: [

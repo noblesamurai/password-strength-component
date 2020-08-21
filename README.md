@@ -14,20 +14,60 @@ or by downloading and using the files in the `dist` folder.
 
 ## Usage
 
-### Creating and updating the component.
+### Importing the component to use.
 
-*Note: This is a work in progress. Ultimatelly there should be multiple ways
-to use this component. By including a js file and getting a global function to
-use or importing into your own project (vanilla, angular, react, ...).*
+There are 2 transpiled versions of the component that can be used.
 
-For now the only properly tested version is the vanilla global js file that
-you need to include before your code.
+* UDM (Universal Module Definition) - works as AMD (Asynchronous Module Definition) for module
+  loaders like RequireJS, CJS (CommonJS) for node and other bundlers and IIFE (a self-executing
+  function suitable for direct inclusion as a `<script>` tag).
 
-```html
-<script src="global.js"></script>
+  * `dist/component.js` -- this is the "main" version that will be used with node require etc...
+  * `dist/component.min.js` -- minified version for the browser.
+
+* ESM (ECMAScript Module) - can be used anywhere module imports are supported.
+
+  * `dist/component.esm.js` -- this is the "module" version that will be used with node module
+    imports etc...
+  * `dist/component.esm.min.js` -- minified version for the browser.
+
+#### Examples:
+
+standard node js require
+```js
+// this should include dist/component.js (non minified udm version)
+const mountPasswordStrengthComponent = require('password-strength-component');
+const update = mountPasswordStrengthComponent(container, opts);
 ```
 
-This then enables you to do something like...
+node js module based imports
+```js
+// this should include dist/component.esm.js (non minified esm version)
+import mountPasswordStrengthComponent from 'password-strength-component';
+const update = mountPasswordStrengthComponent(container, opts);
+```
+
+browser include with global function
+```html
+<script src="dist/component.min.js"></script>
+<script>
+  const update = mountPasswordStrengthComponent(container, opts);
+</script>
+```
+
+browser that supports modules
+```html
+<script type="module">
+  import mountPasswordStrengthComponent from 'dist/component.esm.min.js';
+  const update = mountPasswordStrengthComponent(container, opts);
+</script>
+```
+
+### Creating and updating the component.
+
+The `mountPasswordStrengthComponent` is used to create the DOM elements required to show the
+password strength info and will return function that can be used to update (and get the password
+strength) of the provided password.
 
 ```js
 const opts = {
@@ -54,7 +94,8 @@ input.addEventListener('input', async event => {
   // The "update" function is async and will update the component display as
   // well as returning the strength of the password so that you can do any
   // validation you require based on password strength...
-  // ie. enabling or disabling the submit button if the password isn't good enough. 
+  // ie. enabling or disabling the submit button if the password isn't good
+  // enough. 
   const button = document.querySelector('#submit');
   button.disabled = strength < 1;
 });
@@ -64,6 +105,47 @@ input.addEventListener('input', async event => {
 
 Along with the js file there is also a `dist/style.css` that provides basic styling that can be
 changed/extended with your own CSS rules being applied afterwards.
+
+Alternatively you could use the `src/style.less` base file with your own custom colors to compile
+your own CSS file.
+
+```less
+@import './src/style.less';
+// Override any or all of the variables you find at the top of the style.less
+// file. This is just a few of them...
+@ns-password-strength-too-weak-color: #999;
+@ns-password-strength-weak-color: red;
+@ns-password-strength-average-color: orange;
+@ns-password-strength-strong-color: green;
+```
+
+### Usage with other frameworks
+
+Hopefully this should be fairly easily integrated into other frameworks.
+
+ie. angularjs component might look something like this
+
+```js
+import angular from 'angular';
+import mountPasswordStrengthComponent from 'password-strength-component';
+
+const passwordStrengthComponent = angular.module('ns.password.strength', []);
+passwordStrengtComponent.component('passwordStrength', {
+  bindings: {
+    password: '<',
+    passwordStrength: '='
+  },
+  controller: ['$element', function ($element) {
+    const update = mountPasswordStrengthComponent($element.get(0));
+    this.$onChanges = changes => {
+      if (!changes.password) return;
+      this.passwordStrength = update(this.password);
+    }
+  }]
+});
+
+export default passwordStrengthComponent;
+```
 
 ## License
 
