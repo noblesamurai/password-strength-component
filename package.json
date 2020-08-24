@@ -1,6 +1,6 @@
 {
   "name": "password-strength-component",
-  "version": "0.0.0",
+  "version": "1.0.0-0",
   "description": "generic password strength component",
   "main": "dist/component.js",
   "module": "dist/component.esm.js",
