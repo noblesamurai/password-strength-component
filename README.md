@@ -33,23 +33,23 @@ There are 2 transpiled versions of the component that can be used.
     imports etc...
   * `dist/component.esm.min.js` -- minified version for the browser.
 
-#### Examples:
+### Examples
 
-standard node js require
+#### standard node js require
 ```js
 // this should include dist/component.js (non minified udm version)
 const mountPasswordStrengthComponent = require('password-strength-component');
 const update = mountPasswordStrengthComponent(container, opts);
 ```
 
-node js module based imports
+#### node js module based imports
 ```js
 // this should include dist/component.esm.js (non minified esm version)
 import mountPasswordStrengthComponent from 'password-strength-component';
 const update = mountPasswordStrengthComponent(container, opts);
 ```
 
-browser include with global function
+#### browser include with global function
 ```html
 <script src="dist/component.min.js"></script>
 <script>
@@ -57,7 +57,7 @@ browser include with global function
 </script>
 ```
 
-browser that supports modules
+#### browser that supports modules
 ```html
 <script type="module">
   import mountPasswordStrengthComponent from 'dist/component.esm.min.js';
@@ -65,9 +65,9 @@ browser that supports modules
 </script>
 ```
 
-show/hide password in set password field
+#### show/hide password in set password field
 
-*The follow snippets illustrate how you can give the user the ability to show/hide their password when they are setting a  new password.  This can be a good idea so that the user can understand why/why not their password is strong/weak without having to deal with the fact that they may have mistyped and not know it.*
+The follow snippets illustrate how you can give the user the ability to show/hide their password when they are setting a  new password.  This can be a good idea so that the user can understand why/why not their password is strong/weak without having to deal with the fact that they may have mistyped and not know it.
 
 ```html
 Password: <input type="password" value="" id="password">
