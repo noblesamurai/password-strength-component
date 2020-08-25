@@ -30,7 +30,7 @@ const INITIAL_COMPONENT_HTML = `
  *
  * // update the password strength component based on the password passed in and returns the
  * // password strength to be used for form validation etc...
- * const strength = update(password);
+ * const strength = await update(password);
  * ```
  *
  * @param {HTMLElement} element where to mount the password strength display

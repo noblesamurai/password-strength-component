@@ -140,11 +140,13 @@ passwordStrengtComponent.component('passwordStrength', {
     password: '<',
     passwordStrength: '='
   },
-  controller: ['$element', function ($element) {
+  controller: ['$element', '$q', function ($element, $q) {
     const update = mountPasswordStrengthComponent($element.get(0));
     this.$onChanges = changes => {
       if (!changes.password) return;
-      this.passwordStrength = update(this.password);
+      $q.when(update(this.password)).then(strength => {
+        this.passwordStrength = strength;
+      });
     }
   }]
 });
