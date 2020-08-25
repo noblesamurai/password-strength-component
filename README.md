@@ -65,6 +65,22 @@ browser that supports modules
 </script>
 ```
 
+show/hide password in set password field
+
+*The follow snippets illustrate how you can give the user the ability to show/hide their password when they are setting a  new password.  This can be a good idea so that the user can understand why/why not their password is strong/weak without having to deal with the fact that they may have mistyped and not know it.*
+
+```html
+Password: <input type="password" value="" id="password">
+<input type="checkbox" onclick="toggleShowHide()">Show Password
+```
+
+```js
+function toggleShowHide () {
+  var x = document.getElementById("password");
+  x.type = x.type === "password" ? 'text' : 'password';
+}
+```
+
 ### Creating and updating the component.
 
 The `mountPasswordStrengthComponent` is used to create the DOM elements required to show the
