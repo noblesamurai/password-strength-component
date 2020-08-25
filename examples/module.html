@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ES Module Example</title>
+    <link href="../dist/style.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <section id="main">
+      <input id="password" type="password" placeholder="Enter a password">
+      <div id="strength"></div>
+      <input id="continue" type="button" value="Continue" disabled>
+    </section>
+    <script type="module">
+      import mountPasswordStrengthComponent from '../dist/component.esm.min.js';
+
+      const passwordInput = document.querySelector('#password');
+      const strengthDiv  = document.querySelector('#strength');
+      const continueButton = document.querySelector('#continue');
+      const zxcvbnLib = {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js',
+        integrity: ''
+      };
+      const update = mountPasswordStrengthComponent(strengthDiv, zxcvbnLib);
+      passwordInput.addEventListener('input', async event => {
+        const strength = await update(event.target.value);
+        continueButton.disabled = strength < 1;
+      });
+    </script>
+  </body>
+</html>

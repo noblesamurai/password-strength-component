@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Global Function Example</title>
+    <link href="../dist/style.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <section id="main">
+      <input id="password" type="password" placeholder="Enter a password">
+      <div id="strength"></div>
+      <input id="continue" type="button" value="Continue" disabled>
+    </section>
+    <script src="../dist/component.min.js"></script>
+    <script type="text/javascript">
+      const passwordInput = document.querySelector('#password');
+      const strengthDiv  = document.querySelector('#strength');
+      const continueButton = document.querySelector('#continue');
+      const zxcvbnLib = {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js',
+        integrity: ''
+      };
+      const update = mountPasswordStrengthComponent(strengthDiv, zxcvbnLib);
+      passwordInput.addEventListener('input', async event => {
+        const strength = await update(event.target.value);
+        continueButton.disabled = strength < 1;
+      });
+    </script>
+  </body>
+</html>
