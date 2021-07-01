@@ -1,0 +1,19 @@
+[tool.tartufo]
+cleanup = true
+entropy = true
+exclude-path-patterns = [
+  'tartufo.toml'
+]
+exclude-signatures = [
+  # examples/global.html - zxcvbn library integrity checksum
+  'c215cd9c8794b26b436b5698eae1efc61c83b28750f77994eec43f27495ace37',
+  # examples/module.html - zxcvbn library integrity checksum
+  '8d18639e074c1627e2e90c773ae949a73a974538b8ec1c21e69b5b53ec310058',
+  # test/fixtures/global.html - zxcvbn library integrity checksum
+  '627374959fc8cec3ae03fd03301213ea6288ba29d116e2293617a459c179d2dc',
+  # test/fixtures/module.html - zxcvbn library integrity checksum
+  '5197b71e2d762d6930525057da81424cef566ba6185498277c69614c9eb818de'
+]
+json = false
+regex = true
+repo-path = "."
