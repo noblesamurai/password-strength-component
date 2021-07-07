@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 const getComponentInfo = require('./helpers/get-component-info');
 const { expect } = require('chai');
 

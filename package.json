@@ -10,13 +10,12 @@
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "coverage": "cross-env NODE_ENV=coverage nyc npm test",
-    "pretest": "xo",
+    "pretest": "semistandard",
     "test": "mocha --recursive test"
   },
   "repository": "github:noblesamurai/password-strength-component",
   "author": "Andrew Harris <andrew@noblesamurai.com>",
   "license": "BSD-3-Clause",
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
@@ -28,10 +27,6 @@
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
     "dirty-chai": "^2.0.1",
-    "eslint-config-semistandard": "*",
-    "eslint-config-standard": "*",
-    "eslint-plugin-node": "*",
-    "eslint-plugin-standard": "*",
     "express": "^4.17.1",
     "istanbul-lib-coverage": "^3.0.0",
     "load-script": "^1.0.0",
@@ -39,11 +34,11 @@
     "mocha": "^8.1.1",
     "nyc": "^15.0.0",
     "p-debounce": "^2.1.0",
-    "puppeteer": "^5.2.1",
+    "puppeteer": "^10.1.0",
     "rollup": "^2.26.4",
     "rollup-plugin-less": "^1.1.2",
     "rollup-plugin-terser": "^7.0.0",
-    "xo": "*",
+    "semistandard": "^16.0.1",
     "zxcvbn": "4.4.2"
   },
   "nyc": {
@@ -57,10 +52,13 @@
     "instrument": false,
     "all": true
   },
-  "xo": {
-    "env": [
-      "mocha"
-    ],
-    "extends": "semistandard"
+  "semistandard": {
+    "ignore": [
+      "dist/"
+    ]
+  },
+  "dependencies": {
+    "pupeteer": "0.0.1",
+    "xvfb": "^0.4.0"
   }
 }

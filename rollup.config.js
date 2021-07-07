@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import less from 'rollup-plugin-less';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
+import globals from 'rollup-plugin-node-globals';
 
 const config = {
   input: 'src/index.js',
@@ -38,7 +39,8 @@ const config = {
     }),
     babel({
       babelHelpers: 'bundled'
-    })
+    }),
+    globals()
   ]
 };
 

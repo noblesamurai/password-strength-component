@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const chai = require('chai');
 const express = require('express');
 const fs = require('fs').promises;
@@ -52,7 +53,13 @@ async function createServer () {
 }
 
 before(async function () {
-  this.browser = await puppeteer.launch();
+  this.timeout(15000);
+
+  this.browser = await puppeteer.launch({
+    headless: false,
+    defaultViewport: null,
+    args: ['--no-sandbox']
+  });
   this.server = await createServer();
   const { address, port } = this.server.address();
   this.baseUrl = `http://${address}:${port}`;
