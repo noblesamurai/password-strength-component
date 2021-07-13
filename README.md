@@ -116,7 +116,7 @@ input.addEventListener('input', async event => {
   // well as returning the strength of the password so that you can do any
   // validation you require based on password strength...
   // ie. enabling or disabling the submit button if the password isn't good
-  // enough. 
+  // enough.
   const button = document.querySelector('#submit');
   button.disabled = strength < 1;
 });
@@ -168,6 +168,20 @@ passwordStrengtComponent.component('passwordStrength', {
 });
 
 export default passwordStrengthComponent;
+```
+
+## Contributing
+
+### Prerequisites
+
+```
+$ pip install pre-commit
+```
+
+### Installation
+
+```
+$ pre-commit install --install-hooks
 ```
 
 ## License
